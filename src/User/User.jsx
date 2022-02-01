@@ -14,27 +14,35 @@ class User extends React.Component {
         const { user, users } = this.props;
         return (
             <div className="col-md-6 col-md-offset-3">
+
+                <p align="center">
+                    <Link to="/User">User</Link>
+                    <Link to="/HomePage">  Home</Link>
+                    <Link to="/login">  Logout</Link>
+                </p>
+
+
                 <h1>Hi {user.firstName}!</h1>
                 <form onSubmit={this.handleSubmit}>
-         <label>
-           Firstname :
-           <input type="text" value={user.firstName}  />
-        </label>
-        <label>
-           Lastname :
-           <input type="text" value={user.lastName}  />
-        </label>
-        <label>
-           Username :
-           <input type="text" value={user.username}  />
-        </label>
-        <label>
-           Password :
-           <input type="text" value={user.password}  />
-        </label>
-         <input type="submit" value="Modifier" />
-       </form>
-                
+                    <label>
+                        Firstname :
+                        <input type="text" value={user.firstName} />
+                    </label>
+                    <label>
+                        Lastname :
+                        <input type="text" value={user.lastName} />
+                    </label>
+                    <label>
+                        Username :
+                        <input type="text" value={user.username} />
+                    </label>
+                    <label>
+                        Password :
+                        <input type="text" value={user.password} />
+                    </label>
+                    <input type="submit" value="Modifier" />
+                </form>
+
             </div>
         );
     }

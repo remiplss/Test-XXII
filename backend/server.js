@@ -181,14 +181,17 @@ function checkUserAndGenerateToken(data, req, res) {
 }
 
 /* Api to add video */
-app.post("/add-product", upload.any(), (req, res) => {
+app.post("/add-video", upload.any(), (req, res) => {
   try {
-    if (req.files && req.body && req.body.name && req.body.desc ) {
+    if (req.files && req.body && req.body.name && req.body.desc && req.body.price &&
+      req.body.discount) {
 
       let new_video = new video();
       new_video.name = req.body.name;
       new_video.desc = req.body.desc;
+      new_video.price = req.body.price;
       new_video.image = req.files[0].filename;
+      new_video.discount = req.body.discount;
       new_video.user_id = req.user.id;
       new_video.save((err, data) => {
         if (err) {
@@ -221,8 +224,8 @@ app.post("/add-product", upload.any(), (req, res) => {
 /* Api to update video */
 app.post("/update-video", upload.any(), (req, res) => {
   try {
-    if (req.files && req.body && req.body.name && req.body.desc && 
-      req.body.id ) {
+    if (req.files && req.body && req.body.name && req.body.desc && req.body.price &&
+      req.body.id && req.body.discount) {
 
       video.findById(req.body.id, (err, new_video) => {
 
@@ -241,7 +244,12 @@ app.post("/update-video", upload.any(), (req, res) => {
         if (req.body.desc) {
           new_video.desc = req.body.desc;
         }
-        
+        if (req.body.price) {
+          new_video.price = req.body.price;
+        }
+        if (req.body.discount) {
+          new_video.discount = req.body.discount;
+        }
 
         new_video.save((err, data) => {
           if (err) {
@@ -272,16 +280,6 @@ app.post("/update-video", upload.any(), (req, res) => {
     });
   }
 });
-
-app.patch('/update-user', async (req, res) => {
-  try {
-      const updatedPost = await Post.updateOne({ _id: req.params.update-video },
-          { $set: { username: req.body.username }, $set: { password: req.body.password }});
-      res.json(updatedPost);
-  } catch (err) {
-      res.json({ message: err })
-  }
-})
 
 /* Api to delete video */
 app.post("/delete-video", (req, res) => {
@@ -314,7 +312,6 @@ app.post("/delete-video", (req, res) => {
   }
 });
 
-
 /*Api to get and search video with pagination and search by name*/
 app.get("/get-video", (req, res) => {
   try {
@@ -331,7 +328,7 @@ app.get("/get-video", (req, res) => {
     }
     var perPage = 5;
     var page = req.query.page || 1;
-    video.find(query, { date: 1, name: 1, id: 1, desc: 1, image: 1 })
+    video.find(query, { date: 1, name: 1, id: 1, desc: 1, price: 1, discount: 1, image: 1 })
       .skip((perPage * page) - perPage).limit(perPage)
       .then((data) => {
         video.find(query).count()
@@ -369,7 +366,6 @@ app.get("/get-video", (req, res) => {
   }
 
 });
-
 
 app.listen(2000, () => {
   console.log("Server is Runing On port 2000");

@@ -200,41 +200,7 @@ export default class Dashboard extends Component {
 
   }
 
-  updateuser = () => {
-
-    const file = new FormData();
-
-    file.append('username', this.state.username);
-    file.append('password', this.state.password);
-   
-
-    axios.post('http://localhost:2000/update-user', file, {
-      headers: {
-        'content-type': 'multipart/form-data',
-        'token': this.state.token
-      }
-    }).then((res) => {
-
-      swal({
-        text: res.data.title,
-        icon: "success",
-        type: "success"
-      });
-
-      this.handleuserEditClose();
-      this.setState({ username: '', password: ''}, () => {
-        
-      });
-    }).catch((err) => {
-      swal({
-        text: err.response.data.errorMessage,
-        icon: "error",
-        type: "error"
-      });
-      this.handleuserEditClose();
-    });
-
-  }
+ 
 
   handlevideoOpen = () => {
     this.setState({
